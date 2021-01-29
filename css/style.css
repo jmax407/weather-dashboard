@@ -15,3 +15,26 @@ html, body {
 .hide {
     display: none;
 }
+.bg-high {
+    background: #E333FF;
+    color: #fff;
+}
+.bg-extreme  {
+    background: #5915BA;
+    color: #fff;
+}
+.list-item  {
+    padding: 10px;
+    border-bottom: solid 1px #dfdfdf;
+    color: #555;
+    text-decoration: none;
+}
+.forecast .list-item {
+    color: #fff;
+    border-bottom: none;
+    padding: 10px 0;
+}
+
+.forecast .card-header {
+    border-bottom: none;
+}

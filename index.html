@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
     <title>Hello, world!</title>
   </head>
@@ -41,18 +42,15 @@
             <div class="card-header">
               HISTORY
             </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Cras justo odio</li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-              <li class="list-group-item clearhistry">Clear History</li>
-            </ul>
+            <div id="history-list" class="list-group">
+            </div>
           </div>
         </div>
         </div>
         <div class="col-lg-9 py-4 px-3">
-          <div class="no-results py-4 px-4 hide">
-            <h2>No Results to display</h2>
+          <div id="alert-box" class="alert py-4 px-4 mb-4 hide" role="alert">
+            <i class="fas fa-times"></i>
+            
           </div>
           <div class="card current-weather">
             <div class="card-body">
@@ -61,11 +59,11 @@
                 <li class="card-text" id="temp-item">Temperature:</li>
                 <li class="card-text" id="humidity-item">Humidity:</li>
                 <li class="card-text" id="wind-item">Wind Speed:</li>
-                <li class="card-text" id="uv-item">UV Index:</li>
+                <li class="card-text" id="uv-item">UV Index: </li>
               </ul>
             </div>
           </div>
-          <div class="row mt-4"><div class="col-12"><h3>5-Day ForCast:</h3></div></div>
+          <div class="row mt-4"><div class="col-12"><h3>5-Day ForeCast:</h3></div></div>
           <div id="forecast-container" class="row mt-4">
             
             <div class="col">
