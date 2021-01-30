@@ -40,3 +40,21 @@ html, body {
     background: none;
     font-size: 1.5em;
 }
+#place-holder  {
+    padding: 30px;
+    background: #f3f3f3;
+    color: #a0a0a0;
+}
+label {
+    font-size: 2rem;
+}
+
+@media (max-width: 991.98px) { 
+    #sidebar {
+        height: auto !important;
+        padding-bottom: 20px;
+    }
+    .grey {
+        padding-bottom: 20px;
+    }
+ }

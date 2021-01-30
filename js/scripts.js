@@ -163,13 +163,17 @@ var formSubmitHandler = function(event) {
  ////////////////////////////////////////////////////////////
 
  var displayCityWeather = function(data, city, latitude, longitude, temp, humidity, windSpeed, uvi) {
-    // console.log(data);
-    // console.log("City: " + city);
-    // console.log("Latitude: " + latitude);
-    // console.log("Longitude: " + longitude);
-    // console.log("Temperature: " + temp);
-    // console.log("Humidity: " + humidity);
-    // console.log("Wind Speed: " + windSpeed);
+
+    document.querySelector("#place-holder").classList.add("hide");
+    document.querySelector("#history-container").classList.remove("hide");
+    document.querySelector("#current-weather").classList.remove("hide");
+    forecastContainerEL.classList.remove("hide");
+    var forecastHeaderContainer = document.createElement("div");
+    forecastHeaderContainer.classList = "col-12";
+    var forecastHeader = document.createElement("h3");
+    forecastHeader.textContent = "5-Day ForeCast:";
+    forecastHeaderContainer.appendChild(forecastHeader);
+    forecastContainerEL.appendChild(forecastHeaderContainer);
     var uvIndex = document.querySelector(".badge");
     if(uvIndex) {
         uvIndex.remove();
@@ -180,7 +184,7 @@ var formSubmitHandler = function(event) {
     var currentDate = moment().format("L");
     city = city.toLowerCase();
     city = city.charAt(0).toUpperCase() + city.slice(1);
-    var cityAndDate = document.querySelector(".current-weather .card-title").textContent = city + " " + currentDate;
+    var cityAndDate = document.querySelector("#current-weather .card-title").textContent = city + " " + currentDate;
 
 
 
