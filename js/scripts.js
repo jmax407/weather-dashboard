@@ -31,7 +31,7 @@ var uvItem = document.querySelector("#uv-item");
 
 var getWeatherData = function(city) {
     
-    var apiUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=de073c425cc91c92bd56dfe7488ba727";
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=de073c425cc91c92bd56dfe7488ba727";
 
     //
     alertBox.classList.add("hide");
@@ -103,7 +103,7 @@ var getUVIndex = function(data, city) {
         dailyTemp = Math.round(dailyTemp);
 
         var new_date = moment().add(i, "d").format("L");
-        var weatherIconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+        var weatherIconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
         var forecastCol = document.createElement("div");
         forecastCol.classList = "col";
         forecastCol.innerHTML = '<div class="card text-white bg-primary mb-3 forecast"><div class="card-header">' + new_date + '</div><div class="card-body "><img class="weatherimg" src="'+weatherIconUrl+'"><div class="list-group"><span class="list-item">Tempurate: ' + dailyTemp + '</span><span class="list-item"> Humidity: ' + dailyHumidity + '</span></div></div></div>';
@@ -168,7 +168,7 @@ var formSubmitHandler = function(event) {
     var cityAndDate = document.querySelector("#current-weather .card-title").textContent = city + " " + currentDate;
 
     var icon = getWeatherIcon(currentWeather);
-    var weatherIconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+    var weatherIconUrl = "https://openweathermap.org/img/wn/" + icon + "@2x.png";
     var iconImg = document.createElement("img");
     iconImg.setAttribute("src", weatherIconUrl);
     document.querySelector("#current-weather .card-title").appendChild(iconImg);
