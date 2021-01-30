@@ -37,11 +37,11 @@ var getWeatherData = function(city) {
     alertBox.classList.add("hide");
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
-            console.log(response);
+            // console.log(response);
             response.json().then(function(data) {
                 var currentWeatherIconData = data.weather[0].main;
                 getUVIndex(data, city);
-                console.log(currentWeatherIconData);
+                // console.log(currentWeatherIconData);
                 getWeatherIcon(currentWeatherIconData);
 
                 
@@ -73,7 +73,7 @@ var getUVIndex = function(data, city) {
 
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
-            console.log(response);      
+            // console.log(response);      
             response.json().then(function(forecastData) {
                 var uvi = forecastData.current.uvi;  
                 
@@ -203,7 +203,7 @@ var formSubmitHandler = function(event) {
     
 
 
-    console.log(cityAndDate);
+    // console.log(cityAndDate);
  }
 
  ////////////////////////////////////////////////////////////
@@ -213,7 +213,7 @@ var formSubmitHandler = function(event) {
  var cityHistory = function(city) {
 
         if(cityHistoryArray.indexOf(city) !== -1) {
-            console.log(city + " is already in the history");
+            // console.log(city + " is already in the history");
         }
         else {
         var historyEL = document.createElement("a");
@@ -227,13 +227,13 @@ var formSubmitHandler = function(event) {
 
         cityHistoryArray.push(city);
         }
-        console.log(cityHistoryArray);
+        // console.log(cityHistoryArray);
 
         // if history list too long(8) remove the oldest entry
         if(cityHistoryArray.length >= 8) {
             document.querySelector("#history-list .list-item:first-child").remove();
             cityHistoryArray.shift();
-            console.log(cityHistoryArray);
+            // console.log(cityHistoryArray);
         }
 
 
