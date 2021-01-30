@@ -1,3 +1,23 @@
+var loadedData = JSON.parse(localStorage.getItem("cityHistoryArray"));
+var cityHistoryArray = loadedData;
+
+if(!loadedData) {
+    var cityHistoryArray = [];
+}
+else {
+  for (var k=0; k < cityHistoryArray.length; k++) {
+
+    var historyEL = document.createElement("a");
+        historyEL.classList = "list-item history-item";
+        historyEL.setAttribute("href", cityHistoryArray[k] + "/weatherdata");
+        historyEL.textContent = cityHistoryArray[k];
+    
+        document.querySelector(".list-group").appendChild(historyEL);
+
+
+  }
+}
+
 var searchInputEl = document.querySelector("#citysearch");
 var searchBtnEl = document.querySelector("#search-btn");
 var forecastContainerEL = document.querySelector("#forecast-container");
@@ -7,7 +27,7 @@ var historyItem = document.querySelector(".history-item");
 var alertBox = document.querySelector("#alert-box");
 var weatherImg = document.querySelector(".weatherimg");
 var uvItem = document.querySelector("#uv-item");
-var cityHistoryArray = [];
+
 
 var getWeatherData = function(city) {
     
@@ -27,7 +47,8 @@ var getWeatherData = function(city) {
                 
             });
             cityHistory(city);
-        } else {
+        } 
+        else {
 
             alertBox.classList.add("alert-danger");
             alertBox.classList.remove("hide")
@@ -215,7 +236,10 @@ var formSubmitHandler = function(event) {
             console.log(cityHistoryArray);
         }
 
-    
+
+    localStorage.setItem("cityHistoryArray", JSON.stringify(cityHistoryArray));
+
+
 }
  ////////////////////////////////////////////////////////////
  // End cityHistory Function
@@ -269,6 +293,7 @@ var getWeatherIcon = function(e) {
            return icon;
     }
 }
+
 
  historyListEl.addEventListener("click", reloadCityHandler);
 // add event listener to form submit
