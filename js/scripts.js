@@ -5,9 +5,9 @@ var formEl = document.querySelector("#city-search");
 var historyListEl = document.querySelector("#history-list");
 var historyItem = document.querySelector(".history-item");
 var alertBox = document.querySelector("#alert-box");
-
+var weatherImg = document.querySelector(".weatherimg");
 var uvItem = document.querySelector("#uv-item");
-
+var cityHistoryArray = [];
 
 var getWeatherData = function(city) {
     
@@ -21,6 +21,7 @@ var getWeatherData = function(city) {
             response.json().then(function(data) {
                 getUVIndex(data, city);
             });
+            cityHistory(city);
         } else {
 
             alertBox.classList.add("alert-danger");
@@ -28,7 +29,7 @@ var getWeatherData = function(city) {
             alertBox.innerHTML = '<strong>Error:</strong> '+ city + " " + response.statusText + ". Please try your search again."; 
         }
     });
-    cityHistory(city);
+    
 }
 
 
@@ -40,6 +41,8 @@ var getUVIndex = function(data, city) {
     temp = Math.round(temp);
     var humidity = data.main.humidity;
     var windSpeed = data.wind.speed;
+    var currentWeather = data.weather.main;
+
     
     
     
@@ -48,11 +51,11 @@ var getUVIndex = function(data, city) {
 
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
-            console.log(response);
-            
+            console.log(response);      
             response.json().then(function(forecastData) {
-                var uvi = forecastData.current.uvi;
-                displayCityWeather(data, city, latitude, longitude, temp, humidity, windSpeed, uvi);
+                var uvi = forecastData.current.uvi;  
+                
+                displayCityWeather(data, city, latitude, longitude, temp, humidity, windSpeed, uvi, currentWeather);
                 dailyForeCast(forecastData);
                 
             });
@@ -61,24 +64,70 @@ var getUVIndex = function(data, city) {
         }
     })
 }
- var dailyForeCast = function(forecastData, currentDate) {
+ var dailyForeCast = function(forecastData) {
     // var uvi = forecastData.current.uvi;
     
      for(i=0; i < 5; i++) {
 
         var dailyTemp = forecastData.daily[i].temp.day;
+        var weatherForecast = forecastData.daily[i].weather[0].main;
+    
+
+        switch (weatherForecast) {
+            case 'Thunderstorm':
+
+                var icon= "11d";
+                break;
+            case 'Drizzle':
+
+                var icon= "09d";
+                break;
+            case 'Rain':
+
+                var icon= "10d";
+                break;
+            case 'Snow':
+
+                var icon= "13d";
+                break;
+            case 'Clear':
+
+                var icon= "01d";
+                break;
+            case 'Clouds':
+
+                var icon= "02d";
+                break;
+            case 'Mist':
+            case 'Smoke':
+            case 'Haze':
+            case 'Dust':
+            case 'Fog':
+            case 'Sand':
+            case 'Ash':
+            case 'Squall':
+            case 'Tornado':  
+
+                var icon= "50d@2x.png";
+                break;
+            default:
+
+        }
         
         var dailyHumidity = forecastData.daily[i].humidity;
 
         dailyTemp = Math.round(dailyTemp);
 
         var new_date = moment().add(i, "d").format("L");
-        console.log("new date " + new_date);
-        
+        var weatherIconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
         var forecastCol = document.createElement("div");
         forecastCol.classList = "col";
-        forecastCol.innerHTML = '<div class="card text-white bg-primary mb-3 forecast"><div class="card-header">' + new_date + '</div><div class="card-body "><div class="list-group"><span class="list-item">Tempurate: ' + dailyTemp + '</span><span class="list-item"> Humidity: ' + dailyHumidity + '</span></div></div></div>';
+        forecastCol.innerHTML = '<div class="card text-white bg-primary mb-3 forecast"><div class="card-header">' + new_date + '</div><div class="card-body "><img class="weatherimg" src="'+weatherIconUrl+'"><div class="list-group"><span class="list-item">Tempurate: ' + dailyTemp + '</span><span class="list-item"> Humidity: ' + dailyHumidity + '</span></div></div></div>';
+        
+        
         document.querySelector("#forecast-container").appendChild(forecastCol);
+//        document.querySelector('.weatherimg').setAttribute("src", weatherIconUrl);
+
 
 
      }
@@ -114,16 +163,22 @@ var formSubmitHandler = function(event) {
  ////////////////////////////////////////////////////////////
 
  var displayCityWeather = function(data, city, latitude, longitude, temp, humidity, windSpeed, uvi) {
-    console.log(data);
-    console.log("City: " + city);
-    console.log("Latitude: " + latitude);
-    console.log("Longitude: " + longitude);
-    console.log("Temperature: " + temp);
-    console.log("Humidity: " + humidity);
-    console.log("Wind Speed: " + windSpeed);
+    // console.log(data);
+    // console.log("City: " + city);
+    // console.log("Latitude: " + latitude);
+    // console.log("Longitude: " + longitude);
+    // console.log("Temperature: " + temp);
+    // console.log("Humidity: " + humidity);
+    // console.log("Wind Speed: " + windSpeed);
+    var uvIndex = document.querySelector(".badge");
+    if(uvIndex) {
+        uvIndex.remove();
+    }
+    
 
 
     var currentDate = moment().format("L");
+    city = city.toLowerCase();
     city = city.charAt(0).toUpperCase() + city.slice(1);
     var cityAndDate = document.querySelector(".current-weather .card-title").textContent = city + " " + currentDate;
 
@@ -150,7 +205,8 @@ var formSubmitHandler = function(event) {
     else if (uvi > 10) {
         uvBadge.classList = "badge bg-extreme"; 
     }
-    uvBadge.innerHTML = uvi
+    
+    uvBadge.innerHTML = uvi;
     document.querySelector("#uv-item").append(uvBadge);
     
 
@@ -163,17 +219,32 @@ var formSubmitHandler = function(event) {
  ////////////////////////////////////////////////////////////
 
  var cityHistory = function(city) {
-    console.log("list already includes city: " + city);  
 
+        if(cityHistoryArray.indexOf(city) !== -1) {
+            console.log(city + " is already in the history");
+        }
+        else {
+        var historyEL = document.createElement("a");
+        historyEL.classList = "list-item history-item";
+        historyEL.setAttribute("href", city + "/weatherdata");
+        city = city.toLowerCase();
+        city = city.charAt(0).toUpperCase() + city.slice(1);
+        historyEL.textContent = city;
+    
+        document.querySelector(".list-group").appendChild(historyEL);
 
-    console.log("the city is " + city);
-    var historyEL = document.createElement("a");
-    historyEL.classList = "list-item history-item";
-    historyEL.setAttribute("href", city + "/weatherdata");
-    historyEL.textContent = city;
+        cityHistoryArray.push(city);
+        }
+        console.log(cityHistoryArray);
 
-    document.querySelector(".list-group").appendChild(historyEL);
+        // if history list too long(8) remove the oldest entry
+        if(cityHistoryArray.length >= 8) {
+            document.querySelector("#history-list .list-item:first-child").remove();
+            cityHistoryArray.shift();
+            console.log(cityHistoryArray);
+        }
 
+    
 }
  ////////////////////////////////////////////////////////////
  // End cityHistory Function

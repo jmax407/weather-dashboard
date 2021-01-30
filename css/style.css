@@ -37,4 +37,6 @@ html, body {
 
 .forecast .card-header {
     border-bottom: none;
+    background: none;
+    font-size: 1.5em;
 }
