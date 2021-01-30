@@ -27,10 +27,10 @@
           <form id="city-search" class="history-container m-2 mb-4">
             <label for="citysearch" class="form-label">Search for City</label>
             <div class="row row-cols-lg-auto g-3">
-              <div class="col-lg-9">
+              <div class="col-12 col-md-8">
                 <input type="text" id="citysearch" class="form-control" />
               </div>
-              <div class="col-lg-3">
+              <div class="col">
                 <button type="submit" id="search-btn" class="btn btn-primary">Search</button>
               </div>
             </div>
@@ -55,12 +55,12 @@
           </div>
           <div id="current-weather" class="card hide">
             <div class="card-body">
-              <h2 class="card-title"></h2>
+              <h2 id="current-weather-header" class="card-title"></h2>
               <ul id="weather-details-list">
                 <li class="card-text" id="temp-item"></li>
                 <li class="card-text" id="humidity-item"></li>
                 <li class="card-text" id="wind-item"></li>
-                <li class="card-text" id="uv-item"></li>
+                <li class="card-text" id="uv-item">UV Index: </li>
               </ul>
             </div>
           </div>

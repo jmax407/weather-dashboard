@@ -25,7 +25,7 @@ Acceptance Criteria
 
 Screenshot of final web page
 
-![Weather Dashboard](assets/screenshot.png)
+![Weather Dashboard](screenshot.png)
 
 
 ## live

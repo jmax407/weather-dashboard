@@ -19,7 +19,12 @@ var getWeatherData = function(city) {
         if(response.ok) {
             console.log(response);
             response.json().then(function(data) {
+                var currentWeatherIconData = data.weather[0].main;
                 getUVIndex(data, city);
+                console.log(currentWeatherIconData);
+                getWeatherIcon(currentWeatherIconData);
+
+                
             });
             cityHistory(city);
         } else {
@@ -41,12 +46,8 @@ var getUVIndex = function(data, city) {
     temp = Math.round(temp);
     var humidity = data.main.humidity;
     var windSpeed = data.wind.speed;
-    var currentWeather = data.weather.main;
+    var currentWeather = data.weather[0].main;
 
-    
-    
-    
-    
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&units=imperial&exclude=minutely,hourly,alerts&appid=de073c425cc91c92bd56dfe7488ba727";
 
     fetch(apiUrl).then(function(response) {
@@ -72,47 +73,9 @@ var getUVIndex = function(data, city) {
         var dailyTemp = forecastData.daily[i].temp.day;
         var weatherForecast = forecastData.daily[i].weather[0].main;
     
-
-        switch (weatherForecast) {
-            case 'Thunderstorm':
-
-                var icon= "11d";
-                break;
-            case 'Drizzle':
-
-                var icon= "09d";
-                break;
-            case 'Rain':
-
-                var icon= "10d";
-                break;
-            case 'Snow':
-
-                var icon= "13d";
-                break;
-            case 'Clear':
-
-                var icon= "01d";
-                break;
-            case 'Clouds':
-
-                var icon= "02d";
-                break;
-            case 'Mist':
-            case 'Smoke':
-            case 'Haze':
-            case 'Dust':
-            case 'Fog':
-            case 'Sand':
-            case 'Ash':
-            case 'Squall':
-            case 'Tornado':  
-
-                var icon= "50d@2x.png";
-                break;
-            default:
-
-        }
+        var icon = getWeatherIcon(weatherForecast);
+        
+        
         
         var dailyHumidity = forecastData.daily[i].humidity;
 
@@ -123,11 +86,8 @@ var getUVIndex = function(data, city) {
         var forecastCol = document.createElement("div");
         forecastCol.classList = "col";
         forecastCol.innerHTML = '<div class="card text-white bg-primary mb-3 forecast"><div class="card-header">' + new_date + '</div><div class="card-body "><img class="weatherimg" src="'+weatherIconUrl+'"><div class="list-group"><span class="list-item">Tempurate: ' + dailyTemp + '</span><span class="list-item"> Humidity: ' + dailyHumidity + '</span></div></div></div>';
-        
-        
+                
         document.querySelector("#forecast-container").appendChild(forecastCol);
-//        document.querySelector('.weatherimg').setAttribute("src", weatherIconUrl);
-
 
 
      }
@@ -162,7 +122,7 @@ var formSubmitHandler = function(event) {
  // End formSubmitHandler Function
  ////////////////////////////////////////////////////////////
 
- var displayCityWeather = function(data, city, latitude, longitude, temp, humidity, windSpeed, uvi) {
+ var displayCityWeather = function(data, city, latitude, longitude, temp, humidity, windSpeed, uvi, currentWeather) {
 
     document.querySelector("#place-holder").classList.add("hide");
     document.querySelector("#history-container").classList.remove("hide");
@@ -185,6 +145,13 @@ var formSubmitHandler = function(event) {
     city = city.toLowerCase();
     city = city.charAt(0).toUpperCase() + city.slice(1);
     var cityAndDate = document.querySelector("#current-weather .card-title").textContent = city + " " + currentDate;
+
+    var icon = getWeatherIcon(currentWeather);
+    var weatherIconUrl = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+    var iconImg = document.createElement("img");
+    iconImg.setAttribute("src", weatherIconUrl);
+    document.querySelector("#current-weather .card-title").appendChild(iconImg);
+
 
 
 
@@ -263,6 +230,45 @@ var reloadCityHandler = function(events) {
     }
 }
 
+var getWeatherIcon = function(e) {
+    switch (e) {
+        case 'Thunderstorm':
+
+            var icon= "11d";
+            return icon;
+        case 'Drizzle':
+
+            var icon= "09d";
+            return icon;
+        case 'Rain':
+
+            var icon= "10d";
+            return icon;
+        case 'Snow':
+
+            var icon= "13d";
+            return icon;
+        case 'Clear':
+
+            var icon= "01d";
+            return icon;
+        case 'Clouds':
+
+            var icon= "02d";
+            return icon;
+        case 'Mist':
+        case 'Smoke':
+        case 'Haze':
+        case 'Dust':
+        case 'Fog':
+        case 'Sand':
+        case 'Ash':
+        case 'Squall':
+        case 'Tornado':  
+           var icon = "50d";
+           return icon;
+    }
+}
 
  historyListEl.addEventListener("click", reloadCityHandler);
 // add event listener to form submit
