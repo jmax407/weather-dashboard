@@ -216,6 +216,8 @@ var formSubmitHandler = function(event) {
             // console.log(city + " is already in the history");
         }
         else {
+        cityHistoryArray.push(city);
+        
         var historyEL = document.createElement("a");
         historyEL.classList = "list-item history-item";
         historyEL.setAttribute("href", city + "/weatherdata");
@@ -225,7 +227,7 @@ var formSubmitHandler = function(event) {
     
         document.querySelector(".list-group").appendChild(historyEL);
 
-        cityHistoryArray.push(city);
+        
         }
         // console.log(cityHistoryArray);
 
