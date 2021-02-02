@@ -217,7 +217,7 @@ var formSubmitHandler = function(event) {
         }
         else {
         cityHistoryArray.push(city);
-        
+
         var historyEL = document.createElement("a");
         historyEL.classList = "list-item history-item";
         historyEL.setAttribute("href", city + "/weatherdata");
@@ -250,6 +250,7 @@ var formSubmitHandler = function(event) {
 var reloadCityHandler = function(events) {
     event.preventDefault();
     var reloadCity = event.target.textContent;
+    forecastContainerEL.innerHTML = "";
 
     if(reloadCity) {
         getWeatherData(reloadCity);
